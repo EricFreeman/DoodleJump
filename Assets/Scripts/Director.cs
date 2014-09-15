@@ -12,6 +12,7 @@ namespace Assets.Scripts
         public GameObject Camera;
 
         public float LevelMoney;
+        public bool IsDead;
 
         public int MaxNextPlatform = 8;
         public int MinNextPlatform = 4;
@@ -45,6 +46,8 @@ namespace Assets.Scripts
                 AddPlatform();
                 _nextSpawn += Random.Range(MinNextPlatform, MaxNextPlatform);
             }
+
+            IsDead = Camera.transform.position.y > Player.transform.position.y + 10;
         }
 
         private void AddPlatform(float? y = null)
