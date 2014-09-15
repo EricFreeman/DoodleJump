@@ -9,7 +9,8 @@ namespace Assets.Scripts
 
         void Update ()
         {
-            transform.position = new Vector3(0, Object.transform.position.y, 0) + Offset;
+            if(Object.transform.position.y > transform.position.y)
+                transform.position = new Vector3(0, Object.transform.position.y, 0) + Offset;
         }
     }
 }

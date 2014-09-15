@@ -59,7 +59,6 @@ namespace Assets.Scripts
         public void Handle(PlatformHitMessage message)
         {
             LevelMoney += message.Money;
-            Debug.Log(LevelMoney);
         }
     }
 }
