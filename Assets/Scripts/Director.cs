@@ -53,6 +53,7 @@ namespace Assets.Scripts
 
             var plat = (GameObject)Instantiate(Platform);
             plat.transform.Translate(Random.Range(-4, 4), y.Value, 0);
+            plat.GetComponent<Platform>().Camera = Camera;
         }
 
         public void Handle(PlatformHitMessage message)
