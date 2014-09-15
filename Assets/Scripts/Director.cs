@@ -13,7 +13,6 @@ namespace Assets.Scripts
         public int MinNextPlatform = 4;
 
         private float _nextSpawn;
-        private float _lastSpawn = 8;
 
         void Start()
         {
