@@ -1,13 +1,17 @@
-﻿using System;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Events.Messages;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Assets.Scripts
 {
-    public class Director : MonoBehaviour
+    public class Director : MonoBehaviour,
+        IListener<PlatformHitMessage>
     {
         public GameObject Platform;
         public GameObject Player;
+        public GameObject Camera;
+
+        public float LevelMoney;
 
         public int MaxNextPlatform = 8;
         public int MinNextPlatform = 4;
@@ -25,6 +29,13 @@ namespace Assets.Scripts
             AddPlatform(8);
 
             _nextSpawn = Random.Range(MinNextPlatform, MaxNextPlatform) + 8;
+
+            this.Register<PlatformHitMessage>();
+        }
+
+        void OnDestroy()
+        {
+            this.UnRegister<PlatformHitMessage>();
         }
 
         void Update()
@@ -42,6 +53,12 @@ namespace Assets.Scripts
 
             var plat = (GameObject)Instantiate(Platform);
             plat.transform.Translate(Random.Range(-4, 4), y.Value, 0);
+        }
+
+        public void Handle(PlatformHitMessage message)
+        {
+            LevelMoney += message.Money;
+            Debug.Log(LevelMoney);
         }
     }
 }
