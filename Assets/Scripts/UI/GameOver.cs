@@ -23,7 +23,7 @@ namespace Assets.Scripts.UI
 
         public void Store()
         {
-            
+            Application.LoadLevel("Store");
         }
     }
 }
