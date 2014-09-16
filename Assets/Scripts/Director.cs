@@ -12,12 +12,18 @@ namespace Assets.Scripts
         public GameObject Camera;
 
         public float LevelMoney;
+
+        public float ElapsedTime
+        {
+            get { return Time.fixedTime - _startTime; }
+        }
         public bool IsDead;
 
         public int MaxNextPlatform = 8;
         public int MinNextPlatform = 4;
 
         private float _nextSpawn;
+        private float _startTime;
 
         void Start()
         {
@@ -30,6 +36,7 @@ namespace Assets.Scripts
             AddPlatform(8);
 
             _nextSpawn = Random.Range(MinNextPlatform, MaxNextPlatform) + 8;
+            _startTime = Time.fixedTime;
 
             this.Register<PlatformHitMessage>();
         }

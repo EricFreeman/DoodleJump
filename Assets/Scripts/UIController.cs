@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Util;
+﻿using Assets.Scripts.UI;
+using Assets.Scripts.Util;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,11 +19,17 @@ namespace Assets.Scripts
 
             if (Director.IsDead && !_displayedScreen)
             {
-                SaveGame();
-                var panel = (GameObject) Instantiate(GameOverPanel);
-                panel.transform.SetParent(transform, false);
                 _displayedScreen = true;
+                SaveGame();
+                ShowPanel();
             }
+        }
+
+        private void ShowPanel()
+        {
+            var panel = (GameObject)Instantiate(GameOverPanel);
+            panel.transform.SetParent(transform, false);
+            panel.GetComponent<GameOver>().Director = Director;
         }
 
         private void SaveGame()
