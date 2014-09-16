@@ -23,6 +23,7 @@ namespace Assets.Scripts
         public int MinNextPlatform = 4;
 
         private float _nextSpawn;
+        private float _lastSpawn;
         private float _startTime;
 
         void Start()
@@ -35,7 +36,7 @@ namespace Assets.Scripts
             AddPlatform(4);
             AddPlatform(8);
 
-            _nextSpawn = Random.Range(MinNextPlatform, MaxNextPlatform) + 8;
+            _nextSpawn = Random.Range(MinNextPlatform, MaxNextPlatform);
             _startTime = Time.fixedTime;
 
             this.Register<PlatformHitMessage>();
@@ -59,7 +60,8 @@ namespace Assets.Scripts
 
         private void AddPlatform(float? y = null)
         {
-            if (y == null) y = Player.transform.position.y + 10;
+            if (y == null) y = _nextSpawn + 10;
+            _lastSpawn = y.Value;
 
             var plat = (GameObject)Instantiate(Platform);
             plat.transform.Translate(Random.Range(-4, 4), y.Value, 0);

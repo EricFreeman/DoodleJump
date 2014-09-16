@@ -7,6 +7,8 @@ namespace Assets.Scripts
     public class Platform : MonoBehaviour
     {
         public GameObject Camera;
+        public float Boost;
+        public float Money;
 
         void Update()
         {
@@ -21,10 +23,10 @@ namespace Assets.Scripts
             if (col.collider.rigidbody.velocity.y < 0)
             {
                 // push player up
-                col.collider.rigidbody.velocity = new Vector3(0, 20, 0);
+                col.collider.rigidbody.velocity = new Vector3(col.collider.rigidbody.velocity.x, Boost, 0);
 
                 // send message to give player money
-                EventAggregator.SendMessage(new PlatformHitMessage { Money = .25f });
+                EventAggregator.SendMessage(new PlatformHitMessage { Money = Money });
 
                 // destroy the platform
                 Destroy(gameObject);
