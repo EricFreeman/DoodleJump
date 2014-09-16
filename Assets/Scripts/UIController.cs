@@ -20,7 +20,6 @@ namespace Assets.Scripts
             if (Director.IsDead && !_displayedScreen)
             {
                 _displayedScreen = true;
-                SaveGame();
                 ShowPanel();
             }
         }
@@ -30,11 +29,6 @@ namespace Assets.Scripts
             var panel = (GameObject)Instantiate(GameOverPanel);
             panel.transform.SetParent(transform, false);
             panel.GetComponent<GameOver>().Director = Director;
-        }
-
-        private void SaveGame()
-        {
-            // TODO: Save the game here
         }
     }
 }

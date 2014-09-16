@@ -7,12 +7,19 @@ namespace Assets.Scripts.UI
     public class GameOver : MonoBehaviour
     {
         public Director Director;
-        public Text MoneyText;
+        public Text LevelMoneyText;
+        public Text TotalMoneyText;
         public Text TimeText;
 
         void Start()
         {
-            MoneyText.text = "Money: {0}".ToFormat(Director.LevelMoney.ToString("C"));
+            // Save game
+            var player = PlayerManager.Load();
+            player.Money += Director.LevelMoney;
+            PlayerManager.Save(player);
+
+            LevelMoneyText.text = "Level: {0}".ToFormat(Director.LevelMoney.ToString("C"));
+            TotalMoneyText.text = "Total: {0}".ToFormat(player.Money.ToString("C"));
             TimeText.text = "Time: {0} Seconds".ToFormat(Director.ElapsedTime.ToString("N2"));
         }
 

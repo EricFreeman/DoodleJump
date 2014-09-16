@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Events;
 using Assets.Scripts.Events.Messages;
+using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -23,7 +24,6 @@ namespace Assets.Scripts
         public int MinNextPlatform = 4;
 
         private float _nextSpawn;
-        private float _lastSpawn;
         private float _startTime;
 
         void Start()
@@ -61,7 +61,6 @@ namespace Assets.Scripts
         private void AddPlatform(float? y = null)
         {
             if (y == null) y = _nextSpawn + 10;
-            _lastSpawn = y.Value;
 
             var plat = (GameObject)Instantiate(Platform);
             plat.transform.Translate(Random.Range(-4, 4), y.Value, 0);
