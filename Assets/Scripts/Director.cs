@@ -1,5 +1,8 @@
-﻿using Assets.Scripts.Events;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.Events;
 using Assets.Scripts.Events.Messages;
+using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 using UnityEngine;
 
@@ -26,6 +29,8 @@ namespace Assets.Scripts
         private float _nextSpawn;
         private float _startTime;
 
+        private List<UpgradeLevel> _upgradeLevels { get; set; } 
+
         void Start()
         {
             // Add a couple platforms in to start
@@ -40,6 +45,9 @@ namespace Assets.Scripts
             _startTime = Time.fixedTime;
 
             this.Register<PlatformHitMessage>();
+
+            var p = PlayerManager.Load();
+            _upgradeLevels = p.UpgradeLevels;
         }
 
         void OnDestroy()
@@ -69,7 +77,10 @@ namespace Assets.Scripts
 
         public void Handle(PlatformHitMessage message)
         {
-            LevelMoney += message.Money;
+            var investments = _upgradeLevels.FirstOrDefault(x => x.Upgrade.Name == "Investments");
+            var extraMoney = investments != null ? message.Money*investments.Level : 0;
+
+            LevelMoney += message.Money + extraMoney;
         }
     }
 }
