@@ -8,6 +8,7 @@
             BasePrice = 250;
             Description = "Deploy a parachute to fall slower.";
             MaxLevel = 5;
+            Type = UpgradeType.Parachute;
         }
     }
 }

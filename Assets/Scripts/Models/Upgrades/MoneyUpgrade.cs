@@ -8,6 +8,7 @@
             BasePrice = 10;
             Description = "Earn more money";
             MaxLevel = 5;
+            Type = UpgradeType.Money;
         }
     }
 }

@@ -8,6 +8,7 @@
             BasePrice = 10;
             Description = "Have an easier time manuvering the platforms with an extra bounce in your step.";
             MaxLevel = 10;
+            Type = UpgradeType.Jump;
         }
     }
 }

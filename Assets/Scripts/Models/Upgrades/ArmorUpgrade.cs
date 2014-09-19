@@ -8,6 +8,7 @@
             BasePrice = 500;
             Description = "Take more of a beating before dying.";
             MaxLevel = 5;
+            Type = UpgradeType.Armor;
         }
     }
 }

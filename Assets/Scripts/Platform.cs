@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.Events;
 using Assets.Scripts.Events.Messages;
+using Assets.Scripts.Models;
+using Assets.Scripts.Models.Upgrades;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -23,7 +25,8 @@ namespace Assets.Scripts
             if (col.collider.rigidbody.velocity.y < 0)
             {
                 // push player up
-                col.collider.rigidbody.velocity = new Vector3(col.collider.rigidbody.velocity.x, Boost, 0);
+                var boostLevel = PlayerContext.Get(UpgradeType.Jump);
+                col.collider.rigidbody.velocity = new Vector3(col.collider.rigidbody.velocity.x, Boost + boostLevel, 0);
 
                 // send message to give player money
                 EventAggregator.SendMessage(new PlatformHitMessage { Money = Money });
