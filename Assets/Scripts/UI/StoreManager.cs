@@ -42,6 +42,13 @@ namespace Assets.Scripts.UI
             // Load initial player money text
             var player = PlayerManager.Load();
             MoneyText.text = "Money: {0:C}".ToFormat(player.Money);
+
+            this.Register<BuyItemMessage>();
+        }
+
+        void OnDestroy()
+        {
+            this.UnRegister<BuyItemMessage>();
         }
 
         public void Play()
