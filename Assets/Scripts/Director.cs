@@ -34,8 +34,7 @@ namespace Assets.Scripts
         void Start()
         {
             // Add a couple platforms in to start
-            AddPlatform(-12);
-            AddPlatform(-8);
+            AddPlatform(-8, PlatformType.HighBounce);
             AddPlatform(-4);
             AddPlatform(4);
             AddPlatform(8);
@@ -65,13 +64,16 @@ namespace Assets.Scripts
             IsDead = Camera.transform.position.y > Player.transform.position.y + 10;
         }
 
-        private void AddPlatform(float? y = null)
+        private void AddPlatform(float? y = null, PlatformType? type = null)
         {
             if (y == null) y = _nextSpawn + 10;
 
             var plat = (GameObject)Instantiate(Platform);
             plat.transform.Translate(Random.Range(-4, 4), y.Value, 0);
-            plat.GetComponent<Platform>().Camera = Camera;
+
+            var platScript = plat.GetComponent<Platform>();
+            platScript.Camera = Camera;
+            platScript.Setup(type);
         }
 
         public void Handle(PlatformHitMessage message)
