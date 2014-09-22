@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Assets.Scripts.Events;
 using Assets.Scripts.Events.Messages;
 using Assets.Scripts.Models;
 using Assets.Scripts.Models.Upgrades;
+using Assets.Scripts.Util;
 using UnityEngine;
 using Random = System.Random;
 
@@ -10,16 +12,9 @@ namespace Assets.Scripts
 {
     public class Platform : MonoBehaviour
     {
-        public GameObject Camera;
         public float Boost;
         public float Money;
-
-        void Update()
-        {
-            //remove platform if it gets too far below the camera
-            if(transform.position.y < Camera.transform.position.y - 10)
-                Destroy(gameObject);
-        }
+        public GameObject Coin;
 
         private void OnTriggerEnter(Collider col)
         {
@@ -32,6 +27,14 @@ namespace Assets.Scripts
 
                 // send message to give player money
                 EventAggregator.SendMessage(new PlatformHitMessage { Money = Money });
+
+                // spawn particle effects
+                Enumerable.Range(0, 10).Each(x =>
+                {
+                    var c = (GameObject)Instantiate(Coin);
+                    c.transform.position = transform.position - new Vector3(UnityEngine.Random.Range(-1, 1), 0, 0);
+                    c.rigidbody.AddForce(UnityEngine.Random.Range(-150, 150), UnityEngine.Random.Range(200, 350), 0);
+                });
 
                 // destroy the platform
                 Destroy(gameObject);

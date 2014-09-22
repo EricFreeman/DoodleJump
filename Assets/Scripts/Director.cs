@@ -71,9 +71,7 @@ namespace Assets.Scripts
             var plat = (GameObject)Instantiate(Platform);
             plat.transform.Translate(Random.Range(-4, 4), y.Value, 0);
 
-            var platScript = plat.GetComponent<Platform>();
-            platScript.Camera = Camera;
-            platScript.Setup(type);
+            plat.GetComponent<Platform>().Setup(type);
         }
 
         public void Handle(PlatformHitMessage message)
