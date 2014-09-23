@@ -46,8 +46,11 @@ namespace Assets.Scripts
             }
             else
             {
+                var fire = (GameObject) Instantiate(Resources.Load("Prefabs/Fire"));
+                fire.transform.position = transform.position;
+
                 rigidbody.AddForce(0, 25, 0);
-                if (Time.fixedTime > _rocketStart + 1) _isRocketFiring = false;
+                if (Time.fixedTime > _rocketStart + RocketLength) _isRocketFiring = false;
             }
         }
 
@@ -62,12 +65,22 @@ namespace Assets.Scripts
                     _isParachuteLaunched = true;
                     _parachuteStart = Time.fixedTime;
                     RemainingParachutes--;
+
+                    var parachute = (GameObject) Instantiate(Resources.Load("Prefabs/Parachute"));
+                    parachute.transform.position = transform.position + new Vector3(0, 2, 0);
+                    parachute.transform.SetParent(transform);
                 }
             }
             else
             {
-                rigidbody.velocity = new Vector3(rigidbody.velocity.x, -.5f, 0);
-                if (Time.fixedTime > _parachuteStart + 1) _isParachuteLaunched = false;
+                if (rigidbody.velocity.y > 0)
+                {
+                    _isParachuteLaunched = false;
+                    foreach (Transform t in transform)
+                        if (t.name.Contains("Parachute")) Destroy(t.gameObject);
+                }
+                else
+                    rigidbody.velocity = new Vector3(rigidbody.velocity.x, -.5f, 0);
             }
         }
 
