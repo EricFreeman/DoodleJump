@@ -46,6 +46,8 @@ namespace Assets.Scripts
 
             var p = PlayerManager.Load();
             PlayerContext.Setup(p.UpgradeLevels);
+
+            Player = (GameObject) Instantiate(Resources.Load("Prefabs/Player"));
         }
 
         void OnDestroy()
