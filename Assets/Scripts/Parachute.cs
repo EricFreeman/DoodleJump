@@ -6,25 +6,25 @@ namespace Assets.Scripts
 {
     public class Parachute : MonoBehaviour
     {
-        public Player Player; 
-        public int RemainingParachutes;
+        public Player Player;
 
         void Start()
         {
-            GetComponent<SpriteRenderer>().enabled = false; 
-            RemainingParachutes = PlayerContext.Get(UpgradeType.Parachute);
+            GetComponent<SpriteRenderer>().enabled = false;
+            Player.RemainingParachutes = PlayerContext.Get(UpgradeType.Parachute);
 
         }
 
-        void Update () {
+        void Update()
+        {
             if (Player.IsRocketFiring) return;
             if (!Player.IsParachuteLaunched)
             {
-                if (RemainingParachutes <= 0 || Player.rigidbody.velocity.y > 0) return;
+                if (Player.RemainingParachutes <= 0 || Player.rigidbody.velocity.y > 0) return;
                 if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
                 {
                     Player.IsParachuteLaunched = true;
-                    RemainingParachutes--;
+                    Player.RemainingParachutes--;
 
                     GetComponent<SpriteRenderer>().enabled = true;
                 }

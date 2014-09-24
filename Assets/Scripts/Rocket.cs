@@ -7,13 +7,12 @@ namespace Assets.Scripts
     public class Rocket : MonoBehaviour
     {
         public Player Player;
-        public int RemainingRockets;
 
         private float _rocketStart;
 
         void Start()
         {
-            RemainingRockets = PlayerContext.Get(UpgradeType.Rocket);
+            Player.RemainingRockets = PlayerContext.Get(UpgradeType.Rocket);
         }
 
         void Update()
@@ -21,12 +20,12 @@ namespace Assets.Scripts
             if (Player.IsParachuteLaunched) return;
             if (!Player.IsRocketFiring)
             {
-                if (RemainingRockets <= 0) return;
+                if (Player.RemainingRockets <= 0) return;
                 if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
                 {
                     Player.IsRocketFiring = true;
                     _rocketStart = Time.fixedTime;
-                    RemainingRockets--;
+                    Player.RemainingRockets--;
                 }
             }
             else

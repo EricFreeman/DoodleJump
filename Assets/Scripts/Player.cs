@@ -9,6 +9,8 @@ namespace Assets.Scripts
 
         public bool IsRocketFiring;
         public bool IsParachuteLaunched;
+        public int RemainingRockets;
+        public int RemainingParachutes;
 
         private void Update()
         {
@@ -25,12 +27,6 @@ namespace Assets.Scripts
             rigidbody.AddForce(tiltSpeed * Speed);
         }
 
-        private void VerifyAndUpdatePlayerX()
-        {
-            if (transform.position.x < -6) transform.Translate(-transform.position.x + 6, 0, 0);
-            if (transform.position.x > 6) transform.Translate(-transform.position.x - 6, 0, 0);
-        }
-
         private Vector3 GetTiltSpeed()
         {
             var dir = Vector3.zero;
@@ -42,6 +38,12 @@ namespace Assets.Scripts
             dir *= Time.deltaTime;
 
             return dir;
+        }
+
+        private void VerifyAndUpdatePlayerX()
+        {
+            if (transform.position.x < -6) transform.Translate(-transform.position.x + 6, 0, 0);
+            if (transform.position.x > 6) transform.Translate(-transform.position.x - 6, 0, 0);
         }
     }
 }
