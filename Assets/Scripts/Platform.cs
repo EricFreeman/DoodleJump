@@ -15,6 +15,20 @@ namespace Assets.Scripts
         public float Boost;
         public float Money;
         public GameObject Coin;
+        public PlatformType Type;
+
+        private bool _moveDir;
+
+        void Update()
+        {
+            if (Type == PlatformType.MovingHorizontal)
+            {
+                if (transform.position.x < -4) _moveDir = true;
+                if (transform.position.x > 4) _moveDir = false;
+
+                transform.Translate(_moveDir ? .05f : -.05f, 0, 0);
+            }
+        }
 
         private void OnTriggerEnter(Collider col)
         {
@@ -43,9 +57,9 @@ namespace Assets.Scripts
 
         public void Setup(PlatformType? type = null)
         {
-            var realType = type == null ? GetRandomType() : type.Value;
+            Type = type == null ? GetRandomType() : type.Value;
 
-            switch (realType)
+            switch (Type)
             {
                 case PlatformType.Deafult:
                     gameObject.renderer.material.color = Color.white;
@@ -61,6 +75,10 @@ namespace Assets.Scripts
                 case PlatformType.QuadrupleMoney:
                     Money *= 4;
                     gameObject.renderer.material.color = Color.yellow;
+                    break;
+                case PlatformType.MovingHorizontal:
+                    gameObject.renderer.material.color = Color.green;
+                    _moveDir = UnityEngine.Random.Range(0, 1) == 1;
                     break;
             }
         }
@@ -78,6 +96,7 @@ namespace Assets.Scripts
         Deafult,
         HighBounce,
         LowBounce,
-        QuadrupleMoney
+        QuadrupleMoney,
+        MovingHorizontal
     }
 }
