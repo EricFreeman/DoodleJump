@@ -56,6 +56,13 @@ namespace Assets.Scripts.UI
             Application.LoadLevel("Game");
         }
 
+        public void Reset()
+        {
+            PlayerManager.Reset();
+            var newPlayer = PlayerManager.Load();
+            EventAggregator.SendMessage(new BuyItemMessage() { Player = newPlayer });
+        }
+
         public void Handle(BuyItemMessage message)
         {
             MoneyText.text = "Money: {0:C}".ToFormat(message.Player.Money);
