@@ -17,19 +17,6 @@ namespace Assets.Scripts
         public GameObject Coin;
         public PlatformType Type;
 
-        private bool _moveDir;
-
-        void Update()
-        {
-            if (Type == PlatformType.MovingHorizontal)
-            {
-                if (transform.position.x < -4) _moveDir = true;
-                if (transform.position.x > 4) _moveDir = false;
-
-                transform.Translate(_moveDir ? .05f : -.05f, 0, 0);
-            }
-        }
-
         private void OnTriggerEnter(Collider col)
         {
             // platforms only work if you "fall" into them
@@ -78,7 +65,7 @@ namespace Assets.Scripts
                     break;
                 case PlatformType.MovingHorizontal:
                     gameObject.renderer.material.color = Color.green;
-                    _moveDir = UnityEngine.Random.Range(0, 1) == 1;
+                    gameObject.AddComponent<MoveBackAndForth>();
                     break;
             }
         }
