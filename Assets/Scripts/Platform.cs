@@ -29,14 +29,16 @@ namespace Assets.Scripts
         private void OnTriggerEnter(Collider col)
         {
             // don't interact with a dead player
-            if (col.tag == "DeadPlayer") return;
+            if (col.tag != "PlayerFeet") return;
+
+            var player = col.transform.parent;
 
             // platforms only work if you "fall" into them
-            if (col.collider.rigidbody.velocity.y < 0)
+            if (player.collider.rigidbody.velocity.y < 0)
             {
                 // push player up
                 var boostLevel = PlayerContext.Get(UpgradeType.Jump);
-                col.collider.rigidbody.velocity = new Vector3(col.collider.rigidbody.velocity.x, Boost + boostLevel, 0);
+                player.collider.rigidbody.velocity = new Vector3(player.collider.rigidbody.velocity.x, Boost + boostLevel, 0);
 
                 // send message to give player money
                 EventAggregator.SendMessage(new PlatformHitMessage { Money = Money });

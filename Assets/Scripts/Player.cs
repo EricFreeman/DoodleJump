@@ -63,7 +63,8 @@ namespace Assets.Scripts
             if (Health <= 0)
             {
                 EventAggregator.SendMessage(new PlayerDiedMessage());
-                tag = "DeadPlayer";
+                var feet = GameObject.FindGameObjectWithTag("PlayerFeet");
+                if(feet != null) Destroy(feet);
             }
         }
     }
