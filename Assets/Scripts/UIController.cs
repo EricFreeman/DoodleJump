@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Models;
-using Assets.Scripts.UI;
+﻿using Assets.Scripts.UI;
 using Assets.Scripts.Util;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,9 +11,10 @@ namespace Assets.Scripts
         public Text Money;
         public GameObject GameOverPanel;
 
-        public Player Player;
+        private Player _player;
         public Text ParachutesText;
         public Text RocketsText;
+        public Text LivesText;
 
         private bool _displayedScreen;
 
@@ -28,11 +28,12 @@ namespace Assets.Scripts
                 ShowPanel();
             }
 
-            if (Player == null) Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            if (_player == null) _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
             else
             {
-                ParachutesText.text = "x {0}".ToFormat(Player.RemainingParachutes);
-                RocketsText.text = "x {0}".ToFormat(Player.RemainingRockets);
+                ParachutesText.text = "x {0}".ToFormat(_player.RemainingParachutes);
+                RocketsText.text = "x {0}".ToFormat(_player.RemainingRockets);
+                LivesText.text = "x {0}".ToFormat(_player.Health);
             }
         }
 
