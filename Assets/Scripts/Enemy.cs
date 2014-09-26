@@ -1,17 +1,18 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Events.Messages;
+using UnityEngine;
 
-public class Enemy : MonoBehaviour
+namespace Assets.Scripts
 {
-
-    // Use this for initialization
-    void Start()
+    public class Enemy : MonoBehaviour
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        void OnTriggerEnter(Collider col)
+        {
+            if (col.tag == "Player")
+            {
+                EventAggregator.SendMessage(new HitPlayerMessage());
+                Destroy(gameObject);
+            }
+        }
     }
 }

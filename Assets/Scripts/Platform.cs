@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using Assets.Scripts.Events;
 using Assets.Scripts.Events.Messages;
@@ -17,8 +18,19 @@ namespace Assets.Scripts
         public GameObject Coin;
         public PlatformType Type;
 
+        public bool IsOverride;
+
+        void Start()
+        {
+            if(!IsOverride)
+                Setup();
+        }
+
         private void OnTriggerEnter(Collider col)
         {
+            // don't interact with a dead player
+            if (col.tag == "DeadPlayer") return;
+
             // platforms only work if you "fall" into them
             if (col.collider.rigidbody.velocity.y < 0)
             {

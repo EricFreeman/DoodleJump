@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Events.Messages;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour,
+        IListener<HitPlayerMessage>
     {
         public float Speed = .1f;
         public float RocketLength = 1;
@@ -11,6 +14,7 @@ namespace Assets.Scripts
         public bool IsParachuteLaunched;
         public int RemainingRockets;
         public int RemainingParachutes;
+        public int Health = 1;
 
         private void Update()
         {
@@ -44,6 +48,16 @@ namespace Assets.Scripts
         {
             if (transform.position.x < -6) transform.Translate(-transform.position.x + 6, 0, 0);
             if (transform.position.x > 6) transform.Translate(-transform.position.x - 6, 0, 0);
+        }
+
+        public void Handle(HitPlayerMessage message)
+        {
+            Health--;
+            if (Health <= 0)
+            {
+                EventAggregator.SendMessage(new PlayerDiedMessage());
+                tag = "DeadPlayer";
+            }
         }
     }
 }

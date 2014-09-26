@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Assets.Scripts.Events;
+﻿using Assets.Scripts.Events;
 using Assets.Scripts.Events.Messages;
 using Assets.Scripts.Models;
 using Assets.Scripts.Models.Upgrades;
@@ -9,37 +8,31 @@ using UnityEngine;
 namespace Assets.Scripts
 {
     public class Director : MonoBehaviour,
-        IListener<PlatformHitMessage>
+        IListener<PlatformHitMessage>,
+        IListener<PlayerDiedMessage>
     {
         public GameObject Platform;
         public GameObject Player;
         public GameObject Camera;
 
         public float LevelMoney;
-
+        public bool IsDead;
         public float ElapsedTime
         {
             get { return Time.fixedTime - _startTime; }
         }
-        public bool IsDead;
 
-        public int MaxNextPlatform = 8;
-        public int MinNextPlatform = 4;
-
-        private float _nextSpawn;
         private float _startTime;
-
-        public static List<UpgradeLevel> UpgradeLevels { get; set; } 
 
         void Start()
         {
             // Add a couple platforms in to start
+            Platform.GetComponent<Platform>().IsOverride = true;
             AddPlatform(-8, PlatformType.HighBounce);
             AddPlatform(-4);
             AddPlatform(4);
             AddPlatform(8);
 
-            _nextSpawn = Random.Range(MinNextPlatform, MaxNextPlatform);
             _startTime = Time.fixedTime;
 
             this.Register<PlatformHitMessage>();
@@ -57,21 +50,13 @@ namespace Assets.Scripts
 
         void Update()
         {
-            if (Player.transform.position.y > _nextSpawn)
-            {
-                AddPlatform();
-                _nextSpawn += Random.Range(MinNextPlatform, MaxNextPlatform);
-            }
-
-            IsDead = Camera.transform.position.y > Player.transform.position.y + 10;
+            IsDead = IsDead || Camera.transform.position.y > Player.transform.position.y + 10;
         }
 
-        private void AddPlatform(float? y = null, PlatformType? type = null)
+        private void AddPlatform(float y, PlatformType? type = null)
         {
-            if (y == null) y = _nextSpawn + 10;
-
             var plat = (GameObject)Instantiate(Platform);
-            plat.transform.Translate(Random.Range(-4, 4), y.Value, 0);
+            plat.transform.Translate(Random.Range(-4, 4), y, 0);
 
             plat.GetComponent<Platform>().Setup(type);
         }
@@ -80,6 +65,11 @@ namespace Assets.Scripts
         {
             var extraMoney = message.Money * PlayerContext.Get(UpgradeType.Money);
             LevelMoney += message.Money + extraMoney;
+        }
+
+        public void Handle(PlayerDiedMessage message)
+        {
+            IsDead = true;
         }
     }
 }
