@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.Events;
 using Assets.Scripts.Events.Messages;
+using Assets.Scripts.Models;
+using Assets.Scripts.Models.Upgrades;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -15,6 +17,11 @@ namespace Assets.Scripts
         public int RemainingRockets;
         public int RemainingParachutes;
         public int Health = 1;
+
+        void Start()
+        {
+            Health += PlayerContext.Get(UpgradeType.Armor);
+        }
 
         private void Update()
         {
