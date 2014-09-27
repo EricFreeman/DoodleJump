@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Events;
+﻿using System;
+using Assets.Scripts.Events;
 using Assets.Scripts.Events.Messages;
 using Assets.Scripts.Models;
 using Assets.Scripts.Models.Upgrades;
@@ -45,6 +46,10 @@ namespace Assets.Scripts
 
             var tiltSpeed = GetTiltSpeed();
             rigidbody.AddForce(tiltSpeed * Speed);
+
+            if (speed > 0 || tiltSpeed.x > 0) transform.rotation = new Quaternion(0, 0, 0, 0);
+            else if (speed < 0 || tiltSpeed.x < 0) transform.rotation = new Quaternion(0, 180, 0, 0);
+
         }
 
         private Vector3 GetTiltSpeed()
