@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Events.Messages
 {
-    public class PlatformHitMessage
+    public class EarnMoneyMessage
     {
         public float Money { get; set; }
     }

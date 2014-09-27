@@ -6,6 +6,7 @@ namespace Assets.Scripts
 {
     public class Enemy : MonoBehaviour
     {
+        public float Money = 5;
         private bool _isDead;
 
         void Update()
@@ -19,6 +20,7 @@ namespace Assets.Scripts
             {
                 _isDead = true;
                 EventAggregator.SendMessage(new HitPlayerMessage());
+                EventAggregator.SendMessage(new EarnMoneyMessage { Money = Money });
             }
         }
     }

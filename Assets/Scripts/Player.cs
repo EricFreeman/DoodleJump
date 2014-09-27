@@ -21,6 +21,12 @@ namespace Assets.Scripts
         void Start()
         {
             Health += PlayerContext.Get(UpgradeType.Armor);
+            this.Register<HitPlayerMessage>();
+        }
+
+        void OnDestroy()
+        {
+            this.UnRegister<HitPlayerMessage>();
         }
 
         private void Update()

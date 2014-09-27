@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO.IsolatedStorage;
+using System.CodeDom;
 using System.Linq;
 using Assets.Scripts.Events;
 using Assets.Scripts.Events.Messages;
@@ -7,7 +7,7 @@ using Assets.Scripts.Models;
 using Assets.Scripts.Models.Upgrades;
 using Assets.Scripts.Util;
 using UnityEngine;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts
 {
@@ -18,12 +18,11 @@ namespace Assets.Scripts
         public GameObject Coin;
         public PlatformType Type;
 
-        public bool IsOverride;
+        private bool _isHardcoded;
 
         void Start()
         {
-            if(!IsOverride)
-                Setup();
+            Setup();
         }
 
         private void OnTriggerEnter(Collider col)
@@ -41,7 +40,7 @@ namespace Assets.Scripts
                 player.collider.rigidbody.velocity = new Vector3(player.collider.rigidbody.velocity.x, Boost + boostLevel, 0);
 
                 // send message to give player money
-                EventAggregator.SendMessage(new PlatformHitMessage { Money = Money });
+                EventAggregator.SendMessage(new EarnMoneyMessage { Money = Money });
 
                 // spawn particle effects
                 Enumerable.Range(0, 10).Each(x =>
@@ -59,7 +58,6 @@ namespace Assets.Scripts
         public void Setup(PlatformType? type = null)
         {
             Type = type == null ? GetRandomType() : type.Value;
-
             switch (Type)
             {
                 case PlatformType.Deafult:
@@ -87,8 +85,7 @@ namespace Assets.Scripts
         private PlatformType GetRandomType()
         {
             var values = Enum.GetValues(typeof(PlatformType));
-            var random = new Random();
-            return (PlatformType)values.GetValue(random.Next(values.Length));
+            return (PlatformType)values.GetValue(Random.Range(0, values.Length));
         }
     }
 

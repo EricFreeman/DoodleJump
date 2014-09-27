@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Assets.Scripts
 {
     public class Director : MonoBehaviour,
-        IListener<PlatformHitMessage>,
+        IListener<EarnMoneyMessage>,
         IListener<PlayerDiedMessage>
     {
         public GameObject Platform;
@@ -16,6 +16,7 @@ namespace Assets.Scripts
         public GameObject Camera;
 
         public float LevelMoney;
+        public float MaxHeight;
         public bool IsDead;
         public float ElapsedTime
         {
@@ -27,7 +28,6 @@ namespace Assets.Scripts
         void Start()
         {
             // Add a couple platforms in to start
-            Platform.GetComponent<Platform>().IsOverride = true;
             AddPlatform(-8, PlatformType.HighBounce);
             AddPlatform(-4);
             AddPlatform(4);
@@ -35,7 +35,8 @@ namespace Assets.Scripts
 
             _startTime = Time.fixedTime;
 
-            this.Register<PlatformHitMessage>();
+            this.Register<EarnMoneyMessage>();
+            this.Register<PlayerDiedMessage>();
 
             var p = PlayerManager.Load();
             PlayerContext.Setup(p.UpgradeLevels);
@@ -45,23 +46,23 @@ namespace Assets.Scripts
 
         void OnDestroy()
         {
-            this.UnRegister<PlatformHitMessage>();
+            this.UnRegister<EarnMoneyMessage>();
+            this.UnRegister<PlayerDiedMessage>();
         }
 
         void Update()
         {
             IsDead = IsDead || Camera.transform.position.y > Player.transform.position.y + 10;
+            MaxHeight = MaxHeight > Player.transform.position.y ? MaxHeight : Player.transform.position.y;
         }
 
         private void AddPlatform(float y, PlatformType? type = null)
         {
             var plat = (GameObject)Instantiate(Platform);
             plat.transform.Translate(Random.Range(-4, 4), y, 0);
-
-            plat.GetComponent<Platform>().Setup(type);
         }
 
-        public void Handle(PlatformHitMessage message)
+        public void Handle(EarnMoneyMessage message)
         {
             var extraMoney = message.Money * PlayerContext.Get(UpgradeType.Money);
             LevelMoney += message.Money + extraMoney;
