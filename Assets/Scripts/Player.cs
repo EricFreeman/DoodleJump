@@ -31,8 +31,11 @@ namespace Assets.Scripts
 
         private void Update()
         {
-            ApplyMovementSpeed();
-            VerifyAndUpdatePlayerX();
+            if (Health > 0)
+            {
+                ApplyMovementSpeed();
+                VerifyAndUpdatePlayerX();
+            }
         }
 
         private void ApplyMovementSpeed()
