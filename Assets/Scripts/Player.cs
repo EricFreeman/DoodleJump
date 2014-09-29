@@ -73,7 +73,9 @@ namespace Assets.Scripts
 
         public void Handle(HitPlayerMessage message)
         {
-            Health--;
+            if(Health > 0)
+                Health--;
+
             if (Health <= 0)
             {
                 EventAggregator.SendMessage(new PlayerDiedMessage());
