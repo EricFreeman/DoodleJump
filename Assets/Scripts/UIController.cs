@@ -28,7 +28,12 @@ namespace Assets.Scripts
                 ShowPanel();
             }
 
-            if (_player == null) _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            if (_player == null)
+            {
+                _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+                ParachutesText.transform.parent.gameObject.SetActive(_player.RemainingParachutes > 0);
+                RocketsText.transform.parent.gameObject.SetActive(_player.RemainingRockets > 0);
+            }
             else
             {
                 ParachutesText.text = "x {0}".ToFormat(_player.RemainingParachutes);
