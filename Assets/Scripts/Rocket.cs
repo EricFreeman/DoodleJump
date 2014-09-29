@@ -13,6 +13,8 @@ namespace Assets.Scripts
         void Start()
         {
             Player.RemainingRockets = PlayerContext.Get(UpgradeType.Rocket);
+
+            if (Player.RemainingRockets == 0) GetComponent<SpriteRenderer>().enabled = false;
         }
 
         void Update()
