@@ -56,6 +56,11 @@ namespace Assets.Scripts.UI
             Application.LoadLevel("Game");
         }
 
+        public void Back()
+        {
+            Application.LoadLevel("MainMenu");
+        }
+
         public void Reset()
         {
             PlayerManager.Reset();
