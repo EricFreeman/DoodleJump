@@ -31,7 +31,7 @@ namespace Assets.Scripts
             }
             else
             {
-                if (Player.rigidbody.velocity.y > 0)
+                if (Player.rigidbody.velocity.y > 0 || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
                 {
                     Player.IsParachuteLaunched = false;
                     foreach (Transform t in Player.transform)
