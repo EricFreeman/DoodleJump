@@ -71,6 +71,7 @@ namespace Assets.Scripts.UI
             // if you can afford upgrade
             if (_player.Money >= price && Upgrade.MaxLevel > _upgradeLevel)
             {
+                audio.Play();
                 _player.Money -= price;
                 _upgradeLevel++;
                 _player.SetLevel(Upgrade, _upgradeLevel);

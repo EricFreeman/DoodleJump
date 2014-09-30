@@ -6,6 +6,7 @@ namespace Assets.Scripts
 {
     public class Enemy : MonoBehaviour
     {
+        public AudioClip PlayerHitSound;
         public float Money = 5;
         private bool _isDead;
 
@@ -21,6 +22,7 @@ namespace Assets.Scripts
                 _isDead = true;
                 EventAggregator.SendMessage(new HitPlayerMessage());
                 EventAggregator.SendMessage(new EarnMoneyMessage { Money = Money });
+                EventAggregator.SendMessage(new PlaySoundMessage { Clip = PlayerHitSound });
             }
         }
     }

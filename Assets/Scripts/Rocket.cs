@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Models;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Events.Messages;
+using Assets.Scripts.Models;
 using Assets.Scripts.Models.Upgrades;
 using UnityEngine;
 
@@ -7,6 +9,7 @@ namespace Assets.Scripts
     public class Rocket : MonoBehaviour
     {
         public Player Player;
+        public AudioClip RocketSound;
 
         private float _rocketStart;
 
@@ -25,6 +28,7 @@ namespace Assets.Scripts
                 if (Player.RemainingRockets <= 0) return;
                 if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
                 {
+                    EventAggregator.SendMessage(new PlaySoundMessage { Clip = RocketSound });
                     Player.IsRocketFiring = true;
                     _rocketStart = Time.fixedTime;
                     Player.RemainingRockets--;

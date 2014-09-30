@@ -17,6 +17,7 @@ namespace Assets.Scripts
         public float Money;
         public GameObject Coin;
         public PlatformType Type;
+        public AudioClip JumpSound;
 
         private bool _isHardcoded;
 
@@ -35,6 +36,9 @@ namespace Assets.Scripts
             // platforms only work if you "fall" into them
             if (player.collider.rigidbody.velocity.y < 0)
             {
+                // play jump sound
+                EventAggregator.SendMessage(new PlaySoundMessage { Clip = JumpSound });
+
                 // push player up
                 var boostLevel = PlayerContext.Get(UpgradeType.Jump);
                 player.collider.rigidbody.velocity = new Vector3(player.collider.rigidbody.velocity.x, Boost + boostLevel, 0);

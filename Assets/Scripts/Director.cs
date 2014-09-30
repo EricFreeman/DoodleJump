@@ -9,7 +9,8 @@ namespace Assets.Scripts
 {
     public class Director : MonoBehaviour,
         IListener<EarnMoneyMessage>,
-        IListener<PlayerDiedMessage>
+        IListener<PlayerDiedMessage>,
+        IListener<PlaySoundMessage>
     {
         public GameObject Platform;
         public GameObject Player;
@@ -37,6 +38,7 @@ namespace Assets.Scripts
 
             this.Register<EarnMoneyMessage>();
             this.Register<PlayerDiedMessage>();
+            this.Register<PlaySoundMessage>();
 
             var p = PlayerManager.Load();
             PlayerContext.Setup(p.UpgradeLevels);
@@ -48,6 +50,7 @@ namespace Assets.Scripts
         {
             this.UnRegister<EarnMoneyMessage>();
             this.UnRegister<PlayerDiedMessage>();
+            this.UnRegister<PlaySoundMessage>();
         }
 
         void Update()
@@ -71,6 +74,12 @@ namespace Assets.Scripts
         public void Handle(PlayerDiedMessage message)
         {
             IsDead = true;
+        }
+
+        public void Handle(PlaySoundMessage message)
+        {
+            audio.clip = message.Clip;
+            audio.Play();
         }
     }
 }

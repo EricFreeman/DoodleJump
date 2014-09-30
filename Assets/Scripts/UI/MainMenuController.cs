@@ -6,16 +6,18 @@ namespace Assets.Scripts.UI
     {
         public void PlayButtonClicked()
         {
+            audio.Play();
             Application.LoadLevel("Store");
         }
 
         public void OptionsButtonClicked()
         {
-            Application.LoadLevel("Options");
+            audio.Play();
         }
 
         public void QuitButtonClicked()
         {
+            audio.Play();
             Application.Quit();
         }
     }
