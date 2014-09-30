@@ -7,6 +7,8 @@ namespace Assets.Scripts.Models
     {
         public float Money;
         public List<UpgradeLevel> UpgradeLevels;
+        public bool IsMusicEnabled;
+        public bool IsSoundEnabled;
 
         public PlayerModel() { }
     }
