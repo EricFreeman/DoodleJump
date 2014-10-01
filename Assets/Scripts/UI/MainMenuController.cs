@@ -1,23 +1,28 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Events.Messages;
+using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
     public class MainMenuController : MonoBehaviour
     {
+        public AudioClip Click;
+
         public void PlayButtonClicked()
         {
-            audio.Play();
+            EventAggregator.SendMessage(new PlaySoundMessage { Clip = Click });
             Application.LoadLevel("Store");
         }
 
         public void OptionsButtonClicked()
         {
-            audio.Play();
+            EventAggregator.SendMessage(new PlaySoundMessage { Clip = Click });
+            EventAggregator.SendMessage(new ShowPanelMessage { Type = PanelType.Options });
         }
 
         public void QuitButtonClicked()
         {
-            audio.Play();
+            EventAggregator.SendMessage(new PlaySoundMessage { Clip = Click });
             Application.Quit();
         }
     }

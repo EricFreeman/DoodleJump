@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Models;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Events.Messages;
+using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +11,7 @@ namespace Assets.Scripts.UI
     {
         public Toggle Music;
         public Toggle Sound;
+        public AudioClip Click;
 
         private PlayerModel _player;
 
@@ -24,6 +27,7 @@ namespace Assets.Scripts.UI
 
         public void SaveChanges(bool newValue)
         {
+            EventAggregator.SendMessage(new PlaySoundMessage { Clip = Click });
             _player.IsMusicEnabled = Music.isOn;
             _player.IsSoundEnabled = Sound.isOn;
             PlayerManager.Save(_player);
@@ -31,12 +35,14 @@ namespace Assets.Scripts.UI
 
         public void HardReset()
         {
+            EventAggregator.SendMessage(new PlaySoundMessage { Clip = Click });
             PlayerManager.Reset();
         }
 
         public void Back()
         {
-            Destroy(gameObject);
+            EventAggregator.SendMessage(new PlaySoundMessage { Clip = Click });
+            EventAggregator.SendMessage(new ShowPanelMessage { Type = PanelType.MainMenu });
         }
     }
 }
