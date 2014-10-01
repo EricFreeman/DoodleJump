@@ -67,8 +67,9 @@ namespace Assets.Scripts
 
         private void VerifyAndUpdatePlayerX()
         {
-            if (transform.position.x < -6) transform.Translate(-transform.position.x + 6, 0, 0);
-            if (transform.position.x > 6) transform.Translate(-transform.position.x - 6, 0, 0);
+            var p = transform.position;
+            if (transform.position.x < -6) transform.position = new Vector3(6, p.y, p.z);
+            if (transform.position.x > 6) transform.position = new Vector3(-6, p.y, p.z);
         }
 
         public void Handle(HitPlayerMessage message)
