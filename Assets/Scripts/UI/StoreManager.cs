@@ -15,6 +15,7 @@ namespace Assets.Scripts.UI
         public GameObject UpgradePanelPrefab;
         public GameObject UpgradeItemList;
         public Text MoneyText;
+        public AudioClip Click;
 
         void Start()
         {
@@ -58,6 +59,7 @@ namespace Assets.Scripts.UI
 
         public void Back()
         {
+            EventAggregator.SendMessage(new PlaySoundMessage { Clip = Click });
             Application.LoadLevel("MainMenu");
         }
 
@@ -66,11 +68,13 @@ namespace Assets.Scripts.UI
             PlayerManager.Reset();
             var newPlayer = PlayerManager.Load();
             EventAggregator.SendMessage(new BuyItemMessage() { Player = newPlayer });
+            EventAggregator.SendMessage(new PlaySoundMessage { Clip = Click });
         }
 
         public void Handle(BuyItemMessage message)
         {
             MoneyText.text = "Money: {0:C}".ToFormat(message.Player.Money);
+            EventAggregator.SendMessage(new PlaySoundMessage { Clip = Click });
         }
     }
 }
