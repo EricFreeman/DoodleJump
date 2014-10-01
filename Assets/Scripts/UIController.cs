@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.UI;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Events.Messages;
+using Assets.Scripts.UI;
 using Assets.Scripts.Util;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,6 +49,18 @@ namespace Assets.Scripts
             var panel = (GameObject)Instantiate(GameOverPanel);
             panel.transform.SetParent(transform, false);
             panel.GetComponent<GameOver>().Director = Director;
+        }
+
+        public void LaunchRocket()
+        {
+            EventAggregator.SendMessage(new LaunchRocketMessage());
+            Debug.Log("Rocket");
+        }
+
+        public void LaunchParachute()
+        {
+            EventAggregator.SendMessage(new LaunchParachuteMessage());
+            Debug.Log("Parachute");
         }
     }
 }
