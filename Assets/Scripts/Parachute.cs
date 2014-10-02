@@ -1,12 +1,26 @@
-﻿using Assets.Scripts.Models;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Events.Messages;
+using Assets.Scripts.Models;
 using Assets.Scripts.Models.Upgrades;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class Parachute : MonoBehaviour
+    public class Parachute : MonoBehaviour,
+        IListener<LaunchParachuteMessage>
     {
         public Player Player;
+
+        private bool _pressedScreen;
+        private bool _isPlayerInput
+        {
+            get
+            {
+                return Input.GetKeyDown(KeyCode.S)
+                       || Input.GetKeyDown(KeyCode.DownArrow)
+                       || _pressedScreen;
+            }
+        }
 
         void Start()
         {
@@ -21,7 +35,7 @@ namespace Assets.Scripts
             if (!Player.IsParachuteLaunched)
             {
                 if (Player.RemainingParachutes <= 0 || Player.rigidbody.velocity.y > 0) return;
-                if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                if (_isPlayerInput)
                 {
                     Player.IsParachuteLaunched = true;
                     Player.RemainingParachutes--;
@@ -31,7 +45,7 @@ namespace Assets.Scripts
             }
             else
             {
-                if (Player.rigidbody.velocity.y > 0 || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                if (Player.rigidbody.velocity.y > 0 || _isPlayerInput)
                 {
                     Player.IsParachuteLaunched = false;
                     foreach (Transform t in Player.transform)
@@ -40,6 +54,13 @@ namespace Assets.Scripts
                 else
                     Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, -.5f, 0);
             }
+
+            _pressedScreen = false;
+        }
+
+        public void Handle(LaunchParachuteMessage message)
+        {
+            _pressedScreen = true;
         }
     }
 }

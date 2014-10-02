@@ -54,13 +54,11 @@ namespace Assets.Scripts
         public void LaunchRocket()
         {
             EventAggregator.SendMessage(new LaunchRocketMessage());
-            Debug.Log("Rocket");
         }
 
         public void LaunchParachute()
         {
             EventAggregator.SendMessage(new LaunchParachuteMessage());
-            Debug.Log("Parachute");
         }
     }
 }
