@@ -8,6 +8,8 @@
     public enum PanelType
     {
         MainMenu,
-        Options
+        Options,
+        Controls,
+        Credits
     }
 }

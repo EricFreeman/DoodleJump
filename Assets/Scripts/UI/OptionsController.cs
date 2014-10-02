@@ -38,11 +38,5 @@ namespace Assets.Scripts.UI
             EventAggregator.SendMessage(new PlaySoundMessage { Clip = Click });
             PlayerManager.Reset();
         }
-
-        public void Back()
-        {
-            EventAggregator.SendMessage(new PlaySoundMessage { Clip = Click });
-            EventAggregator.SendMessage(new ShowPanelMessage { Type = PanelType.MainMenu });
-        }
     }
 }
