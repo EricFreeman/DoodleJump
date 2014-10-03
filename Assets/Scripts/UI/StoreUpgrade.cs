@@ -70,13 +70,13 @@ namespace Assets.Scripts.UI
     {
         public static int GetLevel(this PlayerModel p, Upgrade u)
         {
-            var uplevel = p.UpgradeLevels.FirstOrDefault(x => x.Upgrade == u);
+            var uplevel = p.UpgradeLevels.FirstOrDefault(x => x.Upgrade.Name == u.Name);
             return uplevel == null ? 0 : uplevel.Level;
         }
 
         public static void SetLevel(this PlayerModel p, Upgrade u, int l)
         {
-            var uplevel = p.UpgradeLevels.FirstOrDefault(x => x.Upgrade == u);
+            var uplevel = p.UpgradeLevels.FirstOrDefault(x => x.Upgrade.Name == u.Name);
             if (uplevel != null) uplevel.Level = l;
             else p.UpgradeLevels.Add(new UpgradeLevel(u, l));
         }
