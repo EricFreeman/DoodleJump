@@ -13,6 +13,9 @@ namespace Assets.Scripts
 
         void Start()
         {
+            // so it won't only play first song evey time level starts
+            _lastSong = -1;
+
             DontDestroyOnLoad(gameObject);
             if(!AlreadyExists())
                 PlayNewSong();
@@ -40,10 +43,10 @@ namespace Assets.Scripts
 
         private void PlayNewSong()
         {
-            var newSong = -1;
+            var newSong = _lastSong;
             var rand = new System.Random(DateTime.Now.Millisecond);
 
-            while (newSong != _lastSong)
+            while (newSong == _lastSong)
                 newSong = rand.Next(0, Songs.Count);
 
             audio.clip = Songs[newSong];
