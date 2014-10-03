@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Assets.Scripts.Events;
+using Assets.Scripts.Events.Messages;
 using Assets.Scripts.Models.Upgrades;
+using Assets.Scripts.Util;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI
 {
-    public class StoreManager : MonoBehaviour
+    public class StoreManager : MonoBehaviour, IListener<BuyItemMessage>
     {
         public GameObject UpgradePanelPrefab;
         public GameObject UpgradeItemList;
+        public Text MoneyText;
 
         void Start()
         {
@@ -33,6 +38,20 @@ namespace Assets.Scripts.UI
             var r = UpgradeItemList.GetComponent<RectTransform>();
             r.sizeDelta = new Vector2(0, index * 100);
             r.rect.Set(0, 0, r.rect.width, r.rect.height);
+
+            // Load initial player money text
+            var player = PlayerManager.Load();
+            MoneyText.text = "Money: {0:C}".ToFormat(player.Money);
+        }
+
+        public void Play()
+        {
+            Application.LoadLevel("Game");
+        }
+
+        public void Handle(BuyItemMessage message)
+        {
+            MoneyText.text = "Money: {0:C}".ToFormat(message.Player.Money);
         }
     }
 }
