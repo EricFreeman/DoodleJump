@@ -31,7 +31,7 @@ namespace Assets.Scripts.UI
 
             // resize upgrade content panel so scorlling works correctly
             var r = UpgradeItemList.GetComponent<RectTransform>();
-            r.sizeDelta = new Vector2(-25, index * 100);
+            r.sizeDelta = new Vector2(0, index * 100);
             r.rect.Set(0, 0, r.rect.width, r.rect.height);
         }
     }
