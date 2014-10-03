@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 namespace Assets.Scripts.Models.Upgrades
 {
     [XmlInclude(typeof(JumpUpgrade))]
+    [XmlInclude(typeof(MoneyUpgrade))]
     public class Upgrade
     {
         public string Name;

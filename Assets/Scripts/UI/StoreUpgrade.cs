@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using Assets.Scripts.Events;
+using Assets.Scripts.Events.Messages;
 using Assets.Scripts.Models;
 using Assets.Scripts.Models.Upgrades;
 using Assets.Scripts.Util;
@@ -7,7 +9,8 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI
 {
-    public class StoreUpgrade : MonoBehaviour
+    public class StoreUpgrade : MonoBehaviour,
+        IListener<BuyItemMessage>
     {
         public Text UpgradeNameText;
         public Text PriceText;
@@ -29,9 +32,20 @@ namespace Assets.Scripts.UI
             UpdateItem();
         }
 
-        private void UpdateItem()
+        void Start()
         {
-            _player = PlayerManager.Load();
+            this.Register<BuyItemMessage>();
+        }
+
+        void OnDestroy()
+        {
+            this.UnRegister<BuyItemMessage>();
+        }
+
+        private void UpdateItem(PlayerModel player = null)
+        {
+            _player = player ?? PlayerManager.Load();
+
             _upgradeLevel = _player.GetLevel(Upgrade);
             UpgradeNameText.text = Upgrade.Name;
             PriceText.text = Upgrade.LevelPrice(_upgradeLevel).ToString("C");
@@ -61,8 +75,14 @@ namespace Assets.Scripts.UI
                 _upgradeLevel++;
                 _player.SetLevel(Upgrade, _upgradeLevel);
                 PlayerManager.Save(_player);
-                UpdateItem();
+                EventAggregator.SendMessage(new BuyItemMessage {Player = _player});
+                UpdateItem(_player);
             }
+        }
+
+        public void Handle(BuyItemMessage message)
+        {
+            UpdateItem(message.Player);
         }
     }
 
