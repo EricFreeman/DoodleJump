@@ -68,8 +68,8 @@ namespace Assets.Scripts
         private void VerifyAndUpdatePlayerX()
         {
             var p = transform.position;
-            if (transform.position.x < -6) transform.position = new Vector3(6, p.y, p.z);
-            if (transform.position.x > 6) transform.position = new Vector3(-6, p.y, p.z);
+            if (transform.position.x < -7.2) transform.position = new Vector3(7.2f, p.y, p.z);
+            if (transform.position.x > 7.2) transform.position = new Vector3(-7.2f, p.y, p.z);
         }
 
         public void Handle(HitPlayerMessage message)

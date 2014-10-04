@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Models;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -6,7 +7,7 @@ namespace Assets.Scripts
     {
         void Update()
         {
-            if (transform.position.y < Camera.main.transform.position.y - 10)
+            if (transform.position.y < Camera.main.transform.position.y - WorldContext.OffScreenY)
                 Destroy(gameObject);
         }
     }

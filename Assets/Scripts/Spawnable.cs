@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Models;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -26,7 +27,13 @@ namespace Assets.Scripts
                 if (_player.transform.position.y > _nextSpawn)
                 {
                     var spawn = (GameObject)Instantiate(ToSpawn);
-                    spawn.transform.Translate(Random.Range(-4, 4), _nextSpawn + 10, 0);
+                    spawn.transform.Translate(
+                        Random.Range(
+                            -WorldContext.OffScreenX,
+                            WorldContext.OffScreenX),
+                            _nextSpawn + WorldContext.OffScreenY,
+                            0
+                        );
                     _nextSpawn += Random.Range(MinNextSpawn, MaxNextSpawn);
                 }
             }

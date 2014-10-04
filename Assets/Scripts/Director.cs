@@ -1,9 +1,12 @@
-﻿using Assets.Scripts.Events;
+﻿using System;
+using System.Linq;
+using Assets.Scripts.Events;
 using Assets.Scripts.Events.Messages;
 using Assets.Scripts.Models;
 using Assets.Scripts.Models.Upgrades;
 using Assets.Scripts.Util;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts
 {
@@ -26,11 +29,8 @@ namespace Assets.Scripts
 
         void Start()
         {
-            // Add a couple platforms in to start
-            AddPlatform(-8, PlatformType.HighBounce);
-            AddPlatform(-4);
-            AddPlatform(4);
-            AddPlatform(8);
+            // Add a few platforms in to start
+            Enumerable.Range(0, 5).Each(x => Enumerable.Range(0, 3).Each(n => AddPlatform(Random.Range(x * 6 - 15, x * 6 - 10))));
 
             _startTime = Time.fixedTime;
 
@@ -51,14 +51,14 @@ namespace Assets.Scripts
 
         void Update()
         {
-            IsDead = IsDead || Camera.main.transform.position.y > Player.transform.position.y + 10;
+            IsDead = IsDead || Camera.main.transform.position.y > Player.transform.position.y + WorldContext.OffScreenY;
             MaxHeight = MaxHeight > Player.transform.position.y ? MaxHeight : Player.transform.position.y;
         }
 
         private void AddPlatform(float y, PlatformType? type = null)
         {
             var plat = (GameObject)Instantiate(Platform);
-            plat.transform.Translate(Random.Range(-4, 4), y, 0);
+            plat.transform.Translate(Random.Range(-WorldContext.OffScreenX, WorldContext.OffScreenX), y, 0);
         }
 
         public void Handle(EarnMoneyMessage message)

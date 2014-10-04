@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Models;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -13,8 +14,8 @@ namespace Assets.Scripts
 
         void Update()
         {
-            if (transform.position.x < -4) _moveDir = true;
-            if (transform.position.x > 4) _moveDir = false;
+            if (transform.position.x < -WorldContext.OffScreenX) _moveDir = true;
+            if (transform.position.x > WorldContext.OffScreenX) _moveDir = false;
 
             transform.Translate(_moveDir ? .05f : -.05f, 0, 0);
         }
