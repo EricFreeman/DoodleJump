@@ -13,7 +13,6 @@ namespace Assets.Scripts
     {
         public GameObject Platform;
         public GameObject Player;
-        public GameObject Camera;
 
         public float LevelMoney;
         public float MaxHeight;
@@ -52,7 +51,7 @@ namespace Assets.Scripts
 
         void Update()
         {
-            IsDead = IsDead || Camera.transform.position.y > Player.transform.position.y + 10;
+            IsDead = IsDead || Camera.main.transform.position.y > Player.transform.position.y + 10;
             MaxHeight = MaxHeight > Player.transform.position.y ? MaxHeight : Player.transform.position.y;
         }
 

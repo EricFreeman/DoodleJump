@@ -9,12 +9,13 @@ namespace Assets.Scripts
 
         public float MaxNextSpawn;
         public float MinNextSpawn;
+        public float SpawnAfter;
 
         private float _nextSpawn;
 
         void Start () 
         {
-            _nextSpawn = Random.Range(MinNextSpawn, MaxNextSpawn);
+            _nextSpawn = Random.Range(MinNextSpawn, MaxNextSpawn) + SpawnAfter;
         }
 
         void Update ()
