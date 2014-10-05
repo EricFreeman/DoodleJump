@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Events;
+using Assets.Scripts.Events.Messages;
+using Assets.Scripts.Models;
+using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -10,9 +14,13 @@ namespace Assets.Scripts
         public List<AudioClip> Songs;
 
         private int _lastSong;
+        private bool _canPlayMusic;
 
         void Start()
         {
+            var p = PlayerManager.Load();
+            _canPlayMusic = p.IsMusicEnabled;
+
             // so it won't only play first song evey time level starts
             _lastSong = -1;
 
@@ -23,7 +31,7 @@ namespace Assets.Scripts
 
         void Update()
         {
-            if(!audio.isPlaying) PlayNewSong();
+            if(!audio.isPlaying && _canPlayMusic) PlayNewSong();
         }
 
         private bool AlreadyExists()
