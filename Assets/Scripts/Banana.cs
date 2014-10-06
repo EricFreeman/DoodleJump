@@ -7,6 +7,7 @@ namespace Assets.Scripts
     public class Banana : MonoBehaviour
     {
         public float Money;
+        public AudioClip Sound;
 
         private bool _isDeleted;
 
@@ -21,6 +22,7 @@ namespace Assets.Scripts
             if (!_isDeleted)
             {
                 EventAggregator.SendMessage(new EarnMoneyMessage {Money = Money});
+                EventAggregator.SendMessage(new PlaySoundMessage { Clip = Sound });
                 Destroy(gameObject);
                 _isDeleted = true;
             }
