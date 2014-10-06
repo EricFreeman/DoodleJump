@@ -24,7 +24,14 @@ namespace Assets.Scripts.Util
 
         public static void Reset()
         {
-            var player = new PlayerModel { Money = 0 };
+            var oldPlayer = Load();
+
+            var player = new PlayerModel
+            {
+                Money = 0, 
+                IsSoundEnabled = oldPlayer == null || oldPlayer.IsSoundEnabled, 
+                IsMusicEnabled = oldPlayer == null || oldPlayer.IsMusicEnabled
+            };
             Save(player);
         }
     }
