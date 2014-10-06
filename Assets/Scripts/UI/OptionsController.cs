@@ -30,7 +30,7 @@ namespace Assets.Scripts.UI
             EventAggregator.SendMessage(new PlaySoundMessage { Clip = Click });
             _player.IsMusicEnabled = Music.isOn;
             _player.IsSoundEnabled = Sound.isOn;
-//            EventAggregator.SendMessage(new UpdateAudioSettingsMessage { Sound = Sound.isOn, Music = Music.isOn });
+            EventAggregator.SendMessage(new UpdateAudioSettingsMessage { Sound = Sound.isOn, Music = Music.isOn });
             PlayerManager.Save(_player);
         }
 

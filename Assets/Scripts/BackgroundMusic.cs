@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Events;
 using Assets.Scripts.Events.Messages;
-using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class BackgroundMusic : MonoBehaviour
+    public class BackgroundMusic : MonoBehaviour,
+        IListener<UpdateAudioSettingsMessage>
     {
         public List<AudioClip> Songs;
 
@@ -18,6 +18,7 @@ namespace Assets.Scripts
 
         void Start()
         {
+            this.Register<UpdateAudioSettingsMessage>();
             var p = PlayerManager.Load();
             _canPlayMusic = p.IsMusicEnabled;
 
@@ -29,9 +30,14 @@ namespace Assets.Scripts
                 PlayNewSong();
         }
 
+        void OnDestroy()
+        {
+            this.UnRegister<UpdateAudioSettingsMessage>();
+        }
+
         void Update()
         {
-            if(!audio.isPlaying && _canPlayMusic) PlayNewSong();
+            if(!audio.isPlaying) PlayNewSong();
         }
 
         private bool AlreadyExists()
@@ -51,6 +57,8 @@ namespace Assets.Scripts
 
         private void PlayNewSong()
         {
+            if (!_canPlayMusic) return;
+
             var newSong = _lastSong;
             var rand = new System.Random(DateTime.Now.Millisecond);
 
@@ -60,6 +68,12 @@ namespace Assets.Scripts
             audio.clip = Songs[newSong];
             audio.Play();
             _lastSong = newSong;
+        }
+
+        public void Handle(UpdateAudioSettingsMessage message)
+        {
+            _canPlayMusic = message.Music;
+            if(!_canPlayMusic) audio.Stop();
         }
     }
 }
