@@ -14,10 +14,14 @@ namespace Assets.Scripts
 
         void Update()
         {
-            if (transform.position.x < -WorldContext.OffScreenX) _moveDir = true;
-            if (transform.position.x > WorldContext.OffScreenX) _moveDir = false;
+            transform.rotation = _moveDir ? new Quaternion(0, 0, 0, 0) : new Quaternion(0, 180, 0, 0);
 
-            transform.Translate(_moveDir ? .05f : -.05f, 0, 0);
+            if (transform.position.x < -WorldContext.OffScreenX)
+                _moveDir = true;
+            if (transform.position.x > WorldContext.OffScreenX)
+                _moveDir = false;
+
+            transform.Translate(.05f, 0, 0);
         }
     }
 }
