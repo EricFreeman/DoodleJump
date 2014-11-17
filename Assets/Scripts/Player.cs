@@ -44,25 +44,11 @@ namespace Assets.Scripts
             var speed = Input.GetAxisRaw("Horizontal")*Speed;
             rigidbody.AddForce(speed, 0, 0);
 
-            var tiltSpeed = GetTiltSpeed();
-            rigidbody.AddForce(tiltSpeed * Speed);
+            rigidbody.AddForce(Input.acceleration.x * Speed, 0, 0);
 
-            if (speed > 0 || tiltSpeed.x > 0) transform.rotation = new Quaternion(0, 0, 0, 0);
-            else if (speed < 0 || tiltSpeed.x < 0) transform.rotation = new Quaternion(0, 180, 0, 0);
+            if (speed > 0 || Input.acceleration.x > 0) transform.rotation = new Quaternion(0, 0, 0, 0);
+            else if (speed < 0 || Input.acceleration.x < 0) transform.rotation = new Quaternion(0, 180, 0, 0);
 
-        }
-
-        private Vector3 GetTiltSpeed()
-        {
-            var dir = Vector3.zero;
-            dir.x = -Input.acceleration.y;
-            dir.z = Input.acceleration.x;
-            if (dir.sqrMagnitude > 1)
-                dir.Normalize();
-
-            dir *= Time.deltaTime;
-
-            return dir;
         }
 
         private void VerifyAndUpdatePlayerX()
